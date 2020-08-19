@@ -50,15 +50,29 @@ namespace _03_params
             #region using parameters in command
             SqlParameter groupParameter = new SqlParameter();
             groupParameter.ParameterName = "@p1";
-            groupParameter.SqlDbType = System.Data.SqlDbType.NVarChar;
+            groupParameter.SqlDbType = System.Data.SqlDbType.NVarChar; // N -unicode  varchar(10) char(10)
             groupParameter.Size = 20;
             groupParameter.Value = nameGroup;
             #endregion
 
+            // Test
+         //   string pattern = "%[Ii]van%";
+            // 1. Створюємо новий параметр @p2 із значенням Іван
+        //    SqlParameter nameParameter = new SqlParameter("@p2", pattern);
+            //SqlParameter nameParameter = new SqlParameter("@p2", System.Data.SqlDbType.NVarChar, 20);
+            //nameParameter.Value = pattern;
+
+            // 3. В тексті команд підставляємо імена параметрів в ті місця, де мають бути дані введені користувачем
             SqlCommand command = new SqlCommand($"select Student.Name, Surname, IdGroup from Student join Groups " +
-                $"On Student.IdGroup = Groups.Id Where Groups.Name = @p1;select * from Groups", connection);
+                $"On Student.IdGroup = Groups.Id Where Groups.Name = @p1 and Student.Surname Like @p2;select * from Groups", connection);
         
             command.Parameters.Add(groupParameter);
+            // 2. Додаємо параметр в колекцію параметрів нашої команди
+            //  command.Parameters.Add(nameParameter);
+            // варіант 2
+            // command.Parameters.Add(new SqlParameter("@p2", "%[Ii]van%"));
+            // варіант 3 - найкоротший
+            command.Parameters.AddWithValue("@p2", "%[Ii]van%");
 
             SqlDataReader reader = command.ExecuteReader();
             int line = 0;
