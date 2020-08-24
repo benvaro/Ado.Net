@@ -18,10 +18,13 @@
                 <ComboBoxItem>Server Auth</ComboBoxItem>
             </ComboBox>
             <StackPanel Margin="10">
-                <TextBox Margin="5"></TextBox>
-                <TextBox Margin="5"></TextBox>
+                <TextBox Name="tbTread" Margin="5"></TextBox>
+                <TextBox Name="tbRes" Margin="5"></TextBox>
             </StackPanel>
-            <Button>Connect</Button>
+            <Button Click="Button_Click">Connect</Button>
+            <Button Click="Button_ClickPlus">+</Button>
+            <Button Click="Button_ClickSub">-</Button>
+            <Button Click="Button_ClickMult">*</Button>
         </StackPanel>
         <StackPanel Background="LightCoral" Grid.Column="1">
             <ComboBox>

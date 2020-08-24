@@ -26,7 +26,7 @@ namespace _07_ProviderFactory
                 DbCommand command = factory.CreateCommand();
                 command.CommandText = "Select * from Groups";
                 command.Connection = connection;
-
+                
                 Console.WriteLine($"Command: {command.GetType().Name}");
                 using (DbDataReader reader = command.ExecuteReader())
                 {
