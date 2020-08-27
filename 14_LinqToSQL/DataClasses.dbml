@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="University" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=194.44.93.225;Initial Catalog=University;User ID=test;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False" SettingsObjectName="_14_LinqToSQL.Properties.Settings" SettingsPropertyName="UniversityConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Student" Member="Students">
+    <Type Name="Student">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Surname" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="IdGroup" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Student_Achievement" Member="Achievements" ThisKey="Id" OtherKey="IdStudent" Type="Achievement" />
+      <Association Name="Group_Student" Member="Group" ThisKey="IdGroup" OtherKey="Id" Type="Group" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Groups" Member="Groups">
+    <Type Name="Group">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Id_Department" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Group_Student" Member="Students" ThisKey="Id" OtherKey="IdGroup" Type="Student" />
+      <Association Name="Group_TeachersGroup" Member="TeachersGroups" ThisKey="Id" OtherKey="IdGroup" Type="TeachersGroup" />
+      <Association Name="Department_Group" Member="Department" ThisKey="Id_Department" OtherKey="Id" Type="Department" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Achievement" Member="Achievements">
+    <Type Name="Achievement">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdStudent" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdSubject" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Mark" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Student_Achievement" Member="Student" ThisKey="IdStudent" OtherKey="Id" Type="Student" IsForeignKey="true" DeleteRule="SET NULL" />
+      <Association Name="Subject_Achievement" Member="Subject" ThisKey="IdSubject" OtherKey="Id" Type="Subject" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Department" Member="Departments">
+    <Type Name="Department">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(15) NOT NULL" CanBeNull="false" />
+      <Association Name="Department_Group" Member="Groups" ThisKey="Id" OtherKey="Id_Department" Type="Group" />
+      <Association Name="Department_Subject" Member="Subjects" ThisKey="Id" OtherKey="Id_Department" Type="Subject" />
+      <Association Name="Department_Teacher" Member="Teachers" ThisKey="Id" OtherKey="Id_Department" Type="Teacher" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Subject" Member="Subjects">
+    <Type Name="Subject">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Id_Department" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Subject_Achievement" Member="Achievements" ThisKey="Id" OtherKey="IdSubject" Type="Achievement" />
+      <Association Name="Subject_TeachersGroup" Member="TeachersGroups" ThisKey="Id" OtherKey="IdSubject" Type="TeachersGroup" />
+      <Association Name="Department_Subject" Member="Department" ThisKey="Id_Department" OtherKey="Id" Type="Department" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Teacher" Member="Teachers">
+    <Type Name="Teacher">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Surname" Type="System.String" DbType="NVarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="BirthDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Id_Department" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Teacher_TeachersGroup" Member="TeachersGroups" ThisKey="Id" OtherKey="IdTeacher" Type="TeachersGroup" />
+      <Association Name="Department_Teacher" Member="Department" ThisKey="Id_Department" OtherKey="Id" Type="Department" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TeachersGroups" Member="TeachersGroups">
+    <Type Name="TeachersGroup">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdTeacher" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdGroup" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdSubject" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Group_TeachersGroup" Member="Group" ThisKey="IdGroup" OtherKey="Id" Type="Group" IsForeignKey="true" DeleteRule="SET NULL" />
+      <Association Name="Subject_TeachersGroup" Member="Subject" ThisKey="IdSubject" OtherKey="Id" Type="Subject" IsForeignKey="true" />
+      <Association Name="Teacher_TeachersGroup" Member="Teacher" ThisKey="IdTeacher" OtherKey="Id" Type="Teacher" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+</Database>
