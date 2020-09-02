@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="UniversityContext.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="UniversityContextStoreContainer">
+    <EntitySet Name="Animals" EntityType="UniversityContext.Store.Animals" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Kinds" EntityType="UniversityContext.Store.Kinds" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="AnimalKind" Association="UniversityContext.Store.AnimalKind">
+      <End Role="Animal" EntitySet="Animals" />
+      <End Role="Kind" EntitySet="Kinds" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Animals">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Kind_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Kinds">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="AnimalKind">
+    <End Role="Animal" Type="UniversityContext.Store.Animals" Multiplicity="*" />
+    <End Role="Kind" Type="UniversityContext.Store.Kinds" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Kind">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Animal">
+        <PropertyRef Name="Kind_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="UniversityContext" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="UniversityContextContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Animals" EntityType="UniversityContext.Animal" />
+          <EntitySet Name="Kinds" EntityType="UniversityContext.Kind" />
+          <AssociationSet Name="AnimalKind" Association="UniversityContext.AnimalKind">
+            <End Role="Animal" EntitySet="Animals" />
+            <End Role="Kind" EntitySet="Kinds" />
+          </AssociationSet>
+          <EntitySet Name="ZooSet" EntityType="UniversityContext.Zoo" />
+          <AssociationSet Name="ZooAnimal" Association="UniversityContext.ZooAnimal">
+            <End Role="Zoo" EntitySet="ZooSet" />
+            <End Role="Animal" EntitySet="Animals" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Animal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Kind" Relationship="UniversityContext.AnimalKind" FromRole="Animal" ToRole="Kind" />
+          <NavigationProperty Name="Zoo" Relationship="UniversityContext.ZooAnimal" FromRole="Animal" ToRole="Zoo" />
+          <Property Name="ZooId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kind">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" Unicode="true" />
+          <NavigationProperty Name="Animals" Relationship="UniversityContext.AnimalKind" FromRole="Kind" ToRole="Animal" />
+        </EntityType>
+        <Association Name="AnimalKind">
+          <End Type="UniversityContext.Animal" Role="Animal" Multiplicity="*" />
+          <End Type="UniversityContext.Kind" Role="Kind" Multiplicity="1" />
+        </Association>
+        <EntityType Name="Zoo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Animal" Relationship="UniversityContext.ZooAnimal" FromRole="Zoo" ToRole="Animal" />
+        </EntityType>
+        <Association Name="ZooAnimal">
+          <End Type="UniversityContext.Zoo" Role="Zoo" Multiplicity="1" />
+          <End Type="UniversityContext.Animal" Role="Animal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zoo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Animal">
+              <PropertyRef Name="ZooId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="UniversityContextStoreContainer" CdmEntityContainer="UniversityContextContainer">
+    <EntitySetMapping Name="Animals">
+      <EntityTypeMapping TypeName="IsTypeOf(UniversityContext.Animal)">
+        <MappingFragment StoreEntitySet="Animals">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Kinds">
+      <EntityTypeMapping TypeName="IsTypeOf(UniversityContext.Kind)">
+        <MappingFragment StoreEntitySet="Kinds">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="AnimalKind" TypeName="UniversityContext.AnimalKind" StoreEntitySet="Animals">
+      <EndProperty Name="Kind">
+        <ScalarProperty Name="Id" ColumnName="Kind_Id" />
+      </EndProperty>
+      <EndProperty Name="Animal">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

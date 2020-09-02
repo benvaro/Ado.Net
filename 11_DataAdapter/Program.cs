@@ -102,7 +102,7 @@ namespace _11_DataAdapter
                 }
                 Console.WriteLine();
             }
-          
+          //varbinary 0..2gb
         }
     }
 }
