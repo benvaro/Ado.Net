@@ -31,7 +31,7 @@ namespace _12_DataAdapterWF
             builder = new SqlCommandBuilder(adapter);
 
             set = new DataSet();
-            adapter.Fill(sets);
+            adapter.Fill(set);
             dataGridView1.DataSource = set.Tables[0];
 
         }
