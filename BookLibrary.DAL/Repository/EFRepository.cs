@@ -6,21 +6,13 @@ namespace BookLibrary.DAL.Repository
 {
     public class EFRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        private static DbContext context;
+        private readonly DbContext context;
         private readonly DbSet<TEntity> set;
 
-        public static DbContext GetInstance()
+      
+        public EFRepository(DbContext _context)
         {
-            if (context == null)
-            {
-                context = new ApplicationContext();
-            }
-            return context;
-        }
-
-        public EFRepository()
-        {
-            context = EFRepository<TEntity>.GetInstance();
+            context = _context;
             set = context.Set<TEntity>();
         }
         // Book entity

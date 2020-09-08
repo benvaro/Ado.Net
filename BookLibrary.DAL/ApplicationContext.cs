@@ -2,9 +2,7 @@ namespace BookLibrary.DAL
 {
     using BookLibrary.DAL.Entities;
     using BookLibrary.DAL.Initializer;
-    using System;
     using System.Data.Entity;
-    using System.Linq;
 
     public class ApplicationContext : DbContext
     {

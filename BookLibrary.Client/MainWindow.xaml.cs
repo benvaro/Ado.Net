@@ -1,11 +1,7 @@
-﻿using Autofac;
-using BookLibrary.BLL.Model;
+﻿using BookLibrary.BLL.Model;
 using BookLibrary.BLL.Services;
-using BookLibrary.DAL;
-using BookLibrary.DAL.Repository;
 using System;
-using System.Data.Entity;
-using System.Linq;
+using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace BookLibrary.Client
@@ -16,12 +12,23 @@ namespace BookLibrary.Client
     public partial class MainWindow : Window
     {
         private readonly IBookService service;
-
-        public MainWindow()
+        public ObservableCollection<BookDTO> Books { get; set; } = new ObservableCollection<BookDTO>();
+        public MainWindow(IBookService bookService)
         {
             InitializeComponent();
-            service = new BookService();
-            this.DataContext = service.GetBooks().ToList();
+            service = bookService;
+            UpdateBooks(bookService);
+            this.DataContext = Books;
+        }
+
+        private void UpdateBooks(IBookService bookService)
+        {
+            Books.Clear();
+            var temp = bookService.GetBooks();
+            foreach (var item in temp)
+            {
+                Books.Add(item);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -35,6 +42,7 @@ namespace BookLibrary.Client
                 Genre = tbGenre.Text
             };
             service.AddBook(book);
+            UpdateBooks(service);
         }
     }
 }

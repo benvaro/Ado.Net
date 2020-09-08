@@ -56,6 +56,7 @@
     <Compile Include="Entities\Genre.cs" />
     <Compile Include="Initializer\BookInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\AdoRepository.cs" />
     <Compile Include="Repository\EFRepository.cs" />
     <Compile Include="Repository\IGenericRepository.cs" />
   </ItemGroup>
