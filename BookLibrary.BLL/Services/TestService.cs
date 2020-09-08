@@ -1,4 +1,5 @@
-﻿using BookLibrary.BLL.Model;
+﻿using AutoMapper;
+using BookLibrary.BLL.Model;
 using BookLibrary.DAL.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,17 +11,21 @@ namespace BookLibrary.BLL.Services
 {
     public class TestService : IBookService
     {
-        List<Book> test = new List<Book>();
-        public TestService()
+       static List<Book> test = new List<Book>();
+       static List<Genre> genres = new List<Genre>();
+       static List<Author> authors = new List<Author>();
+        private readonly IMapper mapper;
+        public TestService(IMapper _mapper)
         {
-            var genres = new List<Genre>
+            mapper = _mapper;
+             genres = new List<Genre>
             {
                 new Genre{Name = "IT"},
                 new Genre{Name = "Liric"},
                 new Genre{Name = "Fantasy"}
             };
 
-            var authors = new List<Author>
+             authors = new List<Author>
             {
                 new Author{Name = "R.S. Martin"},
                 new Author{Name = "Troelsen"},
@@ -50,7 +55,7 @@ namespace BookLibrary.BLL.Services
 
         public IEnumerable<BookDTO> GetBooks()
         {
-            return null;
+            return mapper.Map<ICollection<BookDTO>>(test);
            
         }
     }

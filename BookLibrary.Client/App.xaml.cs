@@ -21,7 +21,7 @@ namespace BookLibrary.Client
 
             builder.RegisterType<ApplicationContext>().As<DbContext>().SingleInstance();
             builder.RegisterGeneric(typeof(EFRepository<>)).As(typeof(IGenericRepository<>));
-            builder.RegisterType<BookService>().As<IBookService>();
+            builder.RegisterType<TestService>().As<IBookService>();
             builder.RegisterType<MainWindow>().AsSelf();
 
             var config = new MapperConfiguration(cgf => cgf.AddProfile(new MapperConfig()));
