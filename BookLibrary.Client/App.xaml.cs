@@ -33,9 +33,6 @@ namespace BookLibrary.Client
                 window.ShowDialog();
             }
         }
-
-
-
     }
 }
 

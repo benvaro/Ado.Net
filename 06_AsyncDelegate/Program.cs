@@ -48,6 +48,7 @@ namespace _06_AsyncDelegate
         // 
         private static void CalculateCallback(IAsyncResult ar)
         {
+            Console.WriteLine("Thread #{0}", Thread.CurrentThread.ManagedThreadId);
             AsyncResult result = (AsyncResult)ar; //?
             Console.WriteLine("Ended!!!!" + result.AsyncState);
             Calculator calculator = (Calculator)result.AsyncDelegate;
